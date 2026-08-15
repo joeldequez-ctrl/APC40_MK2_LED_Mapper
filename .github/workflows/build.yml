@@ -1,0 +1,25 @@
+name: Build APC40 MK2 LED Mapper - Color Only
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build EXE
+        run: |
+          python -m pip install --upgrade pyinstaller
+          python -m PyInstaller --noconfirm --clean --onefile --windowed --name APC40_MK2_LED_Mapper APC40_MK2_LED_Mapper.py
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: APC40_MK2_LED_Mapper-ColorOnly-Windows
+          path: dist/APC40_MK2_LED_Mapper.exe
+          if-no-files-found: error
